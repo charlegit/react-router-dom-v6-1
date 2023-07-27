@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Error from './pages/Error';
+import Dashboard from './pages/Dashboard';
+import Profile from './Profile';
 
 function App() {
   const [logIn, setLogIn] = useState(null)
@@ -20,6 +22,8 @@ function App() {
   function handleLogout(){
     setLogIn(false)
   }
+
+  console.log(logIn);
 
   let activeClassName = "nav-active"
   return (
@@ -34,10 +38,17 @@ function App() {
         <NavLink to="/dashboard">Dashboard</NavLink>
       </nav>
       <Routes>
-        <Route path="/" element={<Home logIn={handleLogin} />}/>
+        <Route path="/" element={logIn ? <Navigate to = "/dashboard"/> : <Home logIn={handleLogin} />}/>
         <Route path="/About" element={<About />}/>
         <Route path="/Contact" element={<Contact />}/>
-        <Route path="/dashboard" element={<Navigate to="/" state={"From Dashboard"}/>}/>
+        <Route path="/dashboard" element={logIn ? <Dashboard logout={handleLogout}/> : <Navigate to="/" state={"From Dashboard"}/>}>
+          <Route path='settings' element={<p>This is the nested setings route</p>}/>
+        </Route>
+        {/* /dashboard/settings */}
+        <Route path="/profile">
+          <Route path=":userId"element={<Profile/>}/>
+
+        </Route>
         <Route path="*" element={<Error />}/>
       </Routes>
     </BrowserRouter>

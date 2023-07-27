@@ -1,14 +1,17 @@
 import React from "react";
-import {useLocation} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
-function Home( {login} ){
+function Home( {logIn} ){
 
-    let location = useLocation()
+    let navigate = useNavigate()
 
     return(
         <div>
             <p>This is the Home Page</p>
-            <button onClick={login}>Login</button>
+            <button onClick={()=>{
+                logIn()
+                navigate('/dashboard')
+            }}>Login</button>
             {/* {location.state} */}
         </div>
     )
